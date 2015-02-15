@@ -1,0 +1,135 @@
+using System;
+
+public class Marca : ObjetoBasico
+{
+    protected string descripcion1, descripcion2;
+    protected string nombre;
+
+    public Marca(string nombre, string descripcion1, string
+      descripcion2)
+    {
+        this.descripcion1 = descripcion1;
+        this.descripcion2 = descripcion2;
+        this.nombre = nombre;
+    }
+
+
+    protected override string descripcion
+    {
+        get
+        {
+            if ((descripcion1 != null) && (descripcion2 != null))
+                return "Marca " + nombre + " : " + descripcion1 + " "
+                  + descripcion2;
+            else if (descripcion1 != null)
+                return "Marca " + nombre + " : " + descripcion1;
+            else
+                return null;
+        }
+    }
+}
+
+
+using System;
+
+public class Modelo : ObjetoBasico
+{
+    protected string laDescripcion;
+    protected string nombre;
+
+    public Modelo(string nombre, string descripcion)
+    {
+        this.laDescripcion = descripcion;
+        this.nombre = nombre;
+    }
+
+    protected override string descripcion
+    {
+        get
+        {
+            if (laDescripcion != null)
+                return "Modelo " + nombre + " : " + laDescripcion;
+            else
+                return null;
+        }
+    }
+}
+
+
+
+using System;
+
+public abstract class ObjetoBasico
+{
+    public ObjetoBasico siguiente { protected get; set; }
+
+    private string descripcionPorDefecto()
+    {
+        return "descripción por defecto";
+    }
+
+    protected abstract string descripcion { get; }
+
+    public string devuelveDescripcion()
+    {
+        string resultado;
+        resultado = this.descripcion;
+        if (resultado != null)
+            return resultado;
+        if (siguiente != null)
+            return siguiente.devuelveDescripcion();
+        else
+            return this.descripcionPorDefecto();
+    }
+}
+
+
+
+using System;
+
+public class Usuario
+{
+    static void Main(string[] args)
+    {
+        ObjetoBasico vehiculo1 = new Vehiculo(
+          "Auto++ KT500 Vehículo de ocasión en buen estado");
+        Console.WriteLine(vehiculo1.devuelveDescripcion());
+        ObjetoBasico modelo1 = new Modelo("KT400",
+          "Vehículo amplio y confortable");
+        ObjetoBasico vehiculo2 = new Vehiculo(null);
+        vehiculo2.siguiente = modelo1;
+        Console.WriteLine(vehiculo2.devuelveDescripcion());
+        ObjetoBasico marca1 = new Marca("Auto++",
+          "Marca del automóvil", "de gran calidad");
+        ObjetoBasico modelo2 = new Modelo("KT700", null);
+        modelo2.siguiente = marca1;
+        ObjetoBasico vehiculo3 = new Vehiculo(null);
+        vehiculo3.siguiente = modelo2;
+        Console.WriteLine(vehiculo3.devuelveDescripcion());
+        ObjetoBasico vehiculo4 = new Vehiculo(null);
+        Console.WriteLine(vehiculo4.devuelveDescripcion());
+    }
+}
+
+
+using System;
+
+public class Vehiculo : ObjetoBasico
+{
+    protected string laDescripcion;
+
+    public Vehiculo(string descripcion)
+    {
+        this.laDescripcion = descripcion;
+    }
+
+    protected override string descripcion
+    {
+        get
+        {
+            return laDescripcion;
+        }
+    }
+}
+
+
