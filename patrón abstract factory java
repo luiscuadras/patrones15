@@ -1,0 +1,79 @@
+public abstract class Disco implements Prototipo {
+    @Override
+    public abstract Prototipo clone();
+     
+    public abstract String getCapacidad();
+     
+    public abstract String getNombre();
+     
+    public abstract String getPrecio();
+     
+    @Override
+    public String toString() {
+    return getNombre() + " (" + getCapacidad() + ")";
+    }
+    }
+        public abstract class DVD extends Disco {
+    ...
+    }
+        public class DVD_CapaSimple extends DVD {
+     
+    @Override
+    public Prototipo clone() {
+    return new DVD_CapaSimple();
+    }
+     
+    @Override
+    public String getCapacidad() {
+    return "4.7GB";
+    }
+     
+    @Override
+    public String getNombre() {
+    return "DVD Capa Simple";
+    }
+     
+    @Override
+    public String getPrecio() {
+    return "5.00$";
+    }
+     
+    }
+        public interface FabricaDiscos {
+     
+    public BluRay crearBluRay();
+    public DVD crearDVD();
+    }
+        public class FabricaDiscos_CapaSimple implements FabricaDiscos {
+     
+    @Override
+    public BluRay crearBluRay() {
+    return new BluRay_CapaSimple();
+    }
+     
+    @Override
+    public DVD crearDVD() {
+    return new DVD_CapaSimple();
+    }
+     
+    }
+        FabricaDiscos fabrica;
+    DVD dvd;
+    BluRay bluray;
+     
+    fabrica = new FabricaDiscos_CapaSimple();
+    dvd = fabrica.crearDVD();
+    bluray = fabrica.crearBluRay();
+     
+    System.out.println(dvd);
+    System.out.println(bluray);
+     
+    fabrica = new FabricaDiscos_CapaDoble();
+    dvd = fabrica.crearDVD();
+    bluray = fabrica.crearBluRay();
+     
+    System.out.println(dvd);
+    System.out.println(bluray);
+        fabrica = new FabricaDiscos_CapaSimple();
+    dvd = fabrica.crearDVD();
+    bluray = fabrica.crearBluRay();
